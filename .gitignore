@@ -1,0 +1,33 @@
+# tags
+tags/tags.temp
+
+# swap files
+*.swp
+
+# binaries
+*.bin
+*.elf
+
+# lists
+*.lst
+
+# log files
+*.log
+
+bundle/
+!plugins.sh
+
+# KDE
+.directory
+
+# vim
+.netrwhist
+
+# spells DB
+# sources at http://ftp.vim.org/pub/vim/runtime/spell/
+spell/
+
+# Plugin
+plugin/
+autoload/
+lazy-lock.json
