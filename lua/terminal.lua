@@ -44,69 +44,6 @@ vim.cmd('command! FTermExit lua require("FTerm").exit()')
 -- Toggling the terminal
 vim.cmd('command! FTermToggle lua require("FTerm").toggle()')
 
-vim.cmd('command! OpenAraDesignDocPdf silent exec "!xdg-open build/doc/project/design_coat/ac_com_design_document.pdf"')
-vim.cmd('command! OpenAraBullseyeCoverage silent exec "!xdg-open build/BullseyeCoverage.html"')
-vim.cmd('command! OpenAraReqM2Report silent exec "!xdg-open build/RequirementTracing.html"')
-
-function CompleteTargets(ArgLead, CmdLine, CursorPos)
-	local targets =
-		vim.fn.systemlist('ninja -C build -t targets all | sed "s/: .*$//" | grep -v "cmake|txt|/" | sort | uniq ')
-	local build_types = { "Debug", "fsanitizethread", "Release", "Bullseye", "Coverage", "RelWithDebInfo" }
-	local target_os = { "Custom", "EBLinux", "Host", "QNX" }
-	local argList = {}
-	for str in string.gmatch(CmdLine, "([^%s]+)") do
-		table.insert(argList, str)
-	end
-
-	local filter = function(t)
-		local matches = {}
-		for _, str in ipairs(t) do
-			if string.find(str, ArgLead, 0, string.len(ArgLead)) then
-				table.insert(matches, str)
-			end
-		end
-		return matches
-	end
-	if #argList == 1 or (#argList == 2 and string.sub(CmdLine, -1) ~= " ") then
-		return filter(targets)
-	elseif #argList == 2 or (#argList == 3 and string.sub(CmdLine, -1) ~= " ") then
-		return filter(build_types)
-	else
-		return filter(target_os)
-	end
-end
-
-function BuildTarget(cmd, opt)
-	local options = opt.fargs
-	local target = options[1] or " "
-	local build_type = options[2] or "Debug"
-	local target_os = options[3] or "Host"
-	require("FTerm").run(
-		"branch=${PWD##*/}; cd .. && bash ara_Chores/chores.sh "
-			.. cmd
-			.. " $branch "
-			.. target
-			.. " "
-			.. build_type
-			.. " "
-			.. target_os
-			.. "; cd -"
-	)
-end
-
-vim.api.nvim_create_user_command("BuildAraTarget", function(opts)
-	BuildTarget("b", opts)
-end, { nargs = "+", complete = CompleteTargets })
-vim.api.nvim_create_user_command("BuildAraBullseyeCoverage", function(opts)
-	BuildTarget("c", opts)
-end, { nargs = "+", complete = CompleteTargets })
-vim.api.nvim_create_user_command("BuildAraRequirements", function(opts)
-	BuildTarget("r", opts)
-end, { nargs = "*", complete = CompleteTargets })
-vim.cmd(
-	'command! BuildAraDesignPdf lua require("FTerm").run("branch=${PWD##*/}; cd build && ninja ac_com_design_document_pdf; cd -")'
-)
-
 vim.api.nvim_set_keymap(
 	"n",
 	"<C-b>",
@@ -136,8 +73,8 @@ function fterm_shell_toggle()
 end
 
 vim.cmd("command! FTermShell lua fterm_shell_toggle()")
-vim.api.nvim_set_keymap("n", "<C-z>", "<C-\\><C-n><CMD>FTermShell<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-z>", "<C-\\><C-n><CMD>FTermShell<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-n>", "<C-\\><C-n><CMD>FTermShell<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-n><CMD>FTermShell<CR>", { noremap = true, silent = true })
 
 ----------------------------------------------------------------------------------- GOMOVE
 require("gomove").setup({
