@@ -93,15 +93,13 @@ local plugins = {
 
 	-- Documenting
 	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown", "asciidoc", "plantuml", "pu" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
-		end,
+		"brianhuster/live-preview.nvim",
+		dependencies = {
+			-- You can choose one of the following pickers
+			"nvim-telescope/telescope.nvim",
+			"ibhagwan/fzf-lua",
+			"echasnovski/mini.pick",
+		},
 	},
 
 	-- Git integration
@@ -161,24 +159,6 @@ local plugins = {
 		config = function()
 			require("overseer").setup()
 		end,
-	},
-	{
-		"brianhuster/live-preview.nvim",
-		dependencies = {
-			-- You can choose one of the following pickers
-			"nvim-telescope/telescope.nvim",
-			"ibhagwan/fzf-lua",
-			"echasnovski/mini.pick",
-		},
-	},
-	{
-		"tigion/nvim-asciidoc-preview",
-		cmd = { "AsciiDocPreview" },
-		ft = { "asciidoc" },
-		build = "cd server && npm install",
-		opts = {
-			-- Add user configuration here
-		},
 	},
 }
 
