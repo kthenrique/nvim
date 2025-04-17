@@ -155,7 +155,6 @@ local plugins = {
 	},
 
 	-- Experimental ------------------------------------------------------------------------
-	{ "https://gitlab.com/schrieveslaach/sonarlint.nvim" },
 	{ "Civitasv/cmake-tools.nvim" }, -- cmake
 	{
 		"stevearc/overseer.nvim",

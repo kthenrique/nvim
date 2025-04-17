@@ -30,7 +30,6 @@ local ensure_installed = {
 
 	-- Linter
 	"codespell", -- *
-	"sonarlint-language-server", -- multiple languages
 	"cmakelang", -- CMake
 	"cmakelint", -- CMake
 	"shellcheck", -- Bash
