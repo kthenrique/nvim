@@ -7,6 +7,9 @@ vim.api.nvim_set_keymap("n", "<F2>", ":NvimTreeFocus<CR>", {
 })
 
 require("nvim-tree").setup({
+	sort = {
+		sorter = "extension",
+	},
 	-- disables netrw completely
 	disable_netrw = true,
 	-- opens the tree when changing/opening a new tab if the tree wasn't previously opened
