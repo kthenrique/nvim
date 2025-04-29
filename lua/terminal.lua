@@ -73,8 +73,8 @@ function fterm_shell_toggle()
 end
 
 vim.cmd("command! FTermShell lua fterm_shell_toggle()")
-vim.api.nvim_set_keymap("n", "<C-n>", "<C-\\><C-a><CMD>FTermShell<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-a><CMD>FTermShell<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-a>", "<C-\\><C-a><CMD>FTermShell<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<C-a>", "<C-\\><C-a><CMD>FTermShell<CR>", { noremap = true, silent = true })
 
 ----------------------------------------------------------------------------------- GOMOVE
 require("gomove").setup({
