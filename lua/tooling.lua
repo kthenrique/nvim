@@ -21,7 +21,6 @@ local ensure_installed = {
 	"prosemd-lsp", -- proofreading & lint 4 Markdown
 	"lemminx", -- XML
 	"python-lsp-server", -- PyLSP
-	"ruff-lsp", -- Python rust-implemented lsp
 	"dockerfile-language-server", --- Dockerfile
 	"yaml-language-server", -- YAML
 

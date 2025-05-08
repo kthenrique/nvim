@@ -160,7 +160,7 @@ local plugins = {
 			require("overseer").setup()
 		end,
 	},
-	{
+	{ -- GitHub
 		"pwntester/octo.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
