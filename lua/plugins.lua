@@ -13,13 +13,14 @@ vim.opt.rtp:prepend(lazypath)
 
 local opts = {
 	checker = { enabled = false },
+	defaults = { lazy = true },
 }
 
 local plugins = {
 	-- colorschemes
 	{
 		lazy = false,
-		priority = 1000,
+		priority = 100,
 		"sainnhe/gruvbox-material",
 		config = function()
 			vim.g.gruvbox_material_enable_italic = true
@@ -27,11 +28,21 @@ local plugins = {
 			vim.cmd([[colorscheme gruvbox-material]])
 		end,
 	},
-	{ "rebelot/kanagawa.nvim", priority = 1000, config = true },
+	{ "rebelot/kanagawa.nvim", config = true },
 
-	{ "kyazdani42/nvim-web-devicons", lazy = true },
+	-- Statusline
+	{
+		lazy = false,
+		priority = 90,
+		"NTBBloodbath/galaxyline.nvim",
+		branch = "main",
+		dependencies = { "kyazdani42/nvim-web-devicons" },
+	},
+	--use 'famiu/feline.nvim'
+
+	{ "kyazdani42/nvim-web-devicons" },
 	-- Start screen
-	{ "mhinz/vim-startify" },
+	{ lazy = false, "mhinz/vim-startify" },
 
 	-- installer manager
 	{ "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
@@ -57,8 +68,8 @@ local plugins = {
 	},
 
 	-- Snippets
-	{ "dcampos/nvim-snippy" }, -- snippets engine
-	{ "honza/vim-snippets" }, -- snippets source
+	{ "dcampos/nvim-snippy", event = "InsertEnter" }, -- snippets engine
+	{ "honza/vim-snippets", event = "InsertEnter" }, -- snippets source
 
 	-- Linter engine
 	{ "mfussenegger/nvim-lint" },
@@ -76,14 +87,6 @@ local plugins = {
 			vim.api.nvim_set_keymap("n", "<C-W><C-X>", "<Cmd>WinShift<CR>", { noremap = true })
 		end,
 	},
-
-	-- Statusline
-	{
-		"NTBBloodbath/galaxyline.nvim",
-		branch = "main",
-		dependencies = { "kyazdani42/nvim-web-devicons" },
-	},
-	--use 'famiu/feline.nvim'
 
 	-- File explorer
 	{ "kyazdani42/nvim-tree.lua", dependencies = "kyazdani42/nvim-web-devicons" },
@@ -104,7 +107,7 @@ local plugins = {
 
 	-- Git integration
 	{ "lewis6991/gitsigns.nvim", dependencies = "nvim-lua/plenary.nvim" },
-	{ "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
+	{ cmd = "DiffviewOpen", "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
 
 	-- Beautifier
 	{
@@ -162,6 +165,8 @@ local plugins = {
 	},
 	{ -- GitHub
 		"pwntester/octo.nvim",
+		-- lazy-load on a command
+		cmd = "Octo",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",

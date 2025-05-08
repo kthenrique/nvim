@@ -48,6 +48,9 @@ local ensure_installed = {
 	"prettier", -- Web tools
 	"stylua", -- LUA
 	"ruff", -- python
+
+	-- Experimenting
+	"gh",
 }
 
 -- Ensure all tools are installed at start-up
