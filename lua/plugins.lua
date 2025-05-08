@@ -82,6 +82,7 @@ local plugins = {
 
 	-- Windows repositioning
 	{
+		keys = { "<C-W><C-X>" },
 		"sindrets/winshift.nvim",
 		config = function()
 			vim.api.nvim_set_keymap("n", "<C-W><C-X>", "<Cmd>WinShift<CR>", { noremap = true })
