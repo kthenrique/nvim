@@ -140,6 +140,7 @@ local plugins = {
 	{ "numToStr/FTerm.nvim" }, -- Terminal utilities
 	{ "booperlv/nvim-gomove" }, -- inputs repositioning
 	{
+		keys = { "s" },
 		"ggandor/leap.nvim",
 		config = function()
 			require("leap").add_default_mappings()
