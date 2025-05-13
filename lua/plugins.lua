@@ -13,13 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 local opts = {
 	checker = { enabled = false },
-	defaults = { lazy = true },
+	defaults = { lazy = false },
 }
 
 local plugins = {
 	-- colorschemes
 	{
-		lazy = false,
 		priority = 100,
 		"sainnhe/gruvbox-material",
 		config = function()
@@ -32,7 +31,6 @@ local plugins = {
 
 	-- Statusline
 	{
-		lazy = false,
 		priority = 90,
 		"NTBBloodbath/galaxyline.nvim",
 		branch = "main",
@@ -42,7 +40,7 @@ local plugins = {
 
 	{ "kyazdani42/nvim-web-devicons" },
 	-- Start screen
-	{ lazy = false, "mhinz/vim-startify" },
+	{ "mhinz/vim-startify" },
 
 	-- installer manager
 	{ "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
@@ -158,7 +156,6 @@ local plugins = {
 	},
 
 	-- Experimental ------------------------------------------------------------------------
-	{ "Civitasv/cmake-tools.nvim" }, -- cmake
 	{
 		"stevearc/overseer.nvim",
 		config = function()

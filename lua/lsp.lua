@@ -244,6 +244,7 @@ lspConfig.clangd.setup({
 	capabilities = capabilities,
 	cmd = {
 		"clangd",
+		"--enable-config",
 		"--clang-tidy",
 		"--background-index",
 		"--compile-commands-dir=build",
