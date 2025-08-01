@@ -177,6 +177,7 @@ local plugins = {
 			require("octo").setup()
 		end,
 	},
+	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 }
 
 require("lazy").setup(plugins, opts)
