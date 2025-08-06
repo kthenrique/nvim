@@ -3,9 +3,8 @@
 require("mason").setup({
 	max_concurrent_installers = 10,
 })
-require("mason-lspconfig").setup()
 
-local ensure_installed = {
+local tools_tobe_installed = {
 	-- LSP
 	"clangd", -- C/C++
 	"rust-analyzer", -- Rust
@@ -54,11 +53,18 @@ local ensure_installed = {
 }
 
 -- Ensure all tools are installed at start-up
+
+require("mason-lspconfig").setup({
+	automatic_installation = true,
+	automatic_enable = false,
+	handlers = {}, -- <== prevents automatic lspconfig.setup!
+})
+
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	callback = function()
 		local mr = require("mason-registry")
 		mr.refresh(function()
-			for _, tool in ipairs(ensure_installed) do
+			for _, tool in ipairs(tools_tobe_installed) do
 				local p = mr.get_package(tool)
 				if not p:is_installed() then
 					p:install()

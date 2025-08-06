@@ -43,7 +43,14 @@ local plugins = {
 	{ "mhinz/vim-startify" },
 
 	-- installer manager
-	{ "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
+	{ "williamboman/mason.nvim" },
+	{
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = {
+			"mason-org/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+	},
 
 	-- LSP
 	{ "neovim/nvim-lspconfig" }, -- default config for multiple langs

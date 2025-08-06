@@ -38,6 +38,6 @@ require("formatter").setup({
 
 -- Format on Save
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.lua", "*.rs", "*.cpp", "*.hpp", "*.py" },
+	pattern = { "*.lua", "*.rs", "*.cpp", "*.hpp" },
 	command = "FormatWrite",
 })

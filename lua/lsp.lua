@@ -182,6 +182,7 @@ local lspConfig = require("lspconfig")
 
 -- LSP Servers
 local on_attach = function(client, bufnr)
+	vim.lsp.util.make_position_params(0, client.offset_encoding)
 	-- Set autocommands conditional on server_capabilities
 	--	if server_capabilities.document_highlight then
 	if client.server_capabilities.documentHighlightProvider then
@@ -237,6 +238,7 @@ local servers = {
 for _, lsp in ipairs(servers) do
 	lspConfig[lsp].setup({ autostart = true, on_attach = on_attach, capabilities = capabilities })
 end
+
 local home_dir = os.getenv("HOME")
 lspConfig.clangd.setup({
 	autostart = true,
