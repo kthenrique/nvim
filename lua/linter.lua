@@ -12,8 +12,8 @@ linter.linters_by_ft = {
 	dockerfile = { "hadolint" },
 	html = { "proselint" },
 	css = { "stylelint" },
-	markdown = { "markdownlint", "proselint", "vale" }, -- textlint
-	text = { "vale", "proselint", "write_good" }, -- textlint
+	markdown = { "markdownlint", "proselint" }, -- textlint
+	--text = { "vale", "proselint", "write_good" }, -- textlint
 }
 
 local try_lint = function()

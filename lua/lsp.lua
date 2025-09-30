@@ -291,3 +291,69 @@ lspConfig.lua_ls.setup({
 		},
 	},
 })
+
+------------------------------------------------------------------------- NATURAL LANGUAGE
+lspConfig.ltex_plus.setup({
+	autostart = true,
+	on_attach = on_attach,
+	filetypes = {
+		"asciidoc",
+		"markdown",
+		"bib",
+		"context",
+		"gitcommit",
+		"html",
+		"org",
+		"pandoc",
+		"plaintex",
+		"quarto",
+		"mail",
+		"mdx",
+		"rmd",
+		"rnoweb",
+		"rst",
+		"tex",
+		"text",
+		"typst",
+		"xhtml",
+	},
+	capabilities = capabilities,
+	settings = {
+		ltex = {
+			enabled = {
+				"asciidoc",
+				"context",
+				"gitcommit",
+				"html",
+				"markdown",
+				"plaintex",
+				"mail",
+				"mdx",
+				"rmd",
+				"rst",
+				"text",
+				"xhtml",
+			},
+			language = "pt-BR",
+		},
+	},
+})
+
+local function reconfigure_lsp_for_spelllang(spelllang)
+	local clients = vim.lsp.get_active_clients({ name = "ltex_plus" })
+	for _, client in ipairs(clients) do
+		client.config.settings = client.config.settings or {}
+		client.config.settings.ltex = client.config.settings.ltex or {}
+		client.config.settings.ltex.language = spelllang
+
+		client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+	end
+end
+
+vim.api.nvim_create_autocmd("OptionSet", {
+	pattern = "spelllang",
+	callback = function()
+		local spelllang = vim.opt.spelllang:get()[1]
+		reconfigure_lsp_for_spelllang(spelllang)
+	end,
+})
