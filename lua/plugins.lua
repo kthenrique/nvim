@@ -50,7 +50,6 @@ local plugins = {
 			"neovim/nvim-lspconfig",
 		},
 	},
-	{ "mason-org/mason.nvim", dependencies = { "mason-org/mason-lspconfig.nvim" } },
 
 	-- LSP
 	{ "neovim/nvim-lspconfig" }, -- default config for multiple langs
