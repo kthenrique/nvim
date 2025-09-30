@@ -2,6 +2,7 @@
 -- luacheck depends on luarocks
 require("mason").setup({
 	max_concurrent_installers = 10,
+	auto_update_packages = true,
 })
 
 local tools_tobe_installed = {
@@ -37,6 +38,7 @@ local tools_tobe_installed = {
 	"textlint", -- txt
 	"write-good", -- txt, tex
 	"vale", -- txt, tex
+	"ltex-ls-plus", -- txt, tex
 	"hadolint", -- Dockerfile
 	"luacheck", -- LUA
 
@@ -51,6 +53,13 @@ local tools_tobe_installed = {
 	-- Experimenting
 	"gh",
 }
+
+require("mason-lspconfig").setup({
+	automatic_installation = true,
+	automatic_setup = true,
+	automatic_enable = false,
+	--handlers = nil,
+})
 
 -- Ensure all tools are installed at start-up
 
