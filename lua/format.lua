@@ -28,6 +28,7 @@ require("formatter").setup({
 		vue = { require("formatter.filetypes.vue").prettier },
 		svelte = { require("formatter.filetypes.svelte").prettier },
 		lua = { require("formatter.filetypes.lua").stylua },
+		dart = { require("formatter.filetypes.dart").dartformat },
 		rust = { require("formatter.filetypes.rust").rustfmt },
 		cpp = { clangFmt },
 		cmake = { cmakeFmt },
@@ -38,6 +39,6 @@ require("formatter").setup({
 
 -- Format on Save
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.lua", "*.rs", "*.cpp", "*.hpp" },
+	pattern = { "*.lua", "*.rs", "*.cpp", "*.hpp", "*.py", "*.dart" },
 	command = "FormatWrite",
 })

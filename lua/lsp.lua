@@ -130,6 +130,7 @@ local opts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
 vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+vim.api.nvim_set_keymap("x", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>ga", "<cmd>lua vim.lsp.buf.execute_command()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gF", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gh", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
