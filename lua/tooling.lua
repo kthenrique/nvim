@@ -58,17 +58,10 @@ require("mason-lspconfig").setup({
 	automatic_installation = true,
 	automatic_setup = true,
 	automatic_enable = false,
-	--handlers = nil,
+	--handlers = nil, -- <== prevents automatic lspconfig.setup!
 })
 
 -- Ensure all tools are installed at start-up
-
-require("mason-lspconfig").setup({
-	automatic_installation = true,
-	automatic_enable = false,
-	handlers = {}, -- <== prevents automatic lspconfig.setup!
-})
-
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	callback = function()
 		local mr = require("mason-registry")
