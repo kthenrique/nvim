@@ -194,6 +194,17 @@ local plugins = {
 			"stevearc/dressing.nvim", -- optional for vim.ui.select
 		},
 		config = true,
+    },
+
+	{
+		"CopilotC-Nvim/CopilotChat.nvim",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim", branch = "master" },
+		},
+		build = "make tiktoken",
+		opts = {
+			-- See Configuration section for options
+		},
 	},
 }
 
