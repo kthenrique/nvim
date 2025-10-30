@@ -110,19 +110,19 @@ vim.cmd("hi LspDiagnosticsSignHint guifg=cyan")
 vim.cmd("hi LspDiagnosticsSignInformation guifg=green")
 vim.fn.sign_define(
 	"DiagnosticSignError",
-	{ text = "", texthl = "LspDiagnosticsSignError", linehl = "", numhl = "LspDiagnosticsSignError" }
+	{ text = "●", texthl = "LspDiagnosticsSignError", linehl = "", numhl = "LspDiagnosticsSignError" }
 )
 vim.fn.sign_define(
 	"DiagnosticSignWarn",
-	{ text = "", texthl = "LspDiagnosticsSignWarning", linehl = "", numhl = "LspDiagnosticsSignWarning" }
+	{ text = "●", texthl = "LspDiagnosticsSignWarning", linehl = "", numhl = "LspDiagnosticsSignWarning" }
 )
 vim.fn.sign_define(
 	"DiagnosticSignHint",
-	{ text = "", texthl = "LspDiagnosticsSignHint", linehl = "", numhl = "LspDiagnosticsSignHint" }
+	{ text = "●", texthl = "LspDiagnosticsSignHint", linehl = "", numhl = "LspDiagnosticsSignHint" }
 )
 vim.fn.sign_define(
 	"DiagnosticSignInfo",
-	{ text = "ℹ", texthl = "LspDiagnosticsSignInformation", linehl = "", numhl = "LspDiagnosticsSignInformation" }
+	{ text = "●", texthl = "LspDiagnosticsSignInformation", linehl = "", numhl = "LspDiagnosticsSignInformation" }
 )
 
 -- Mappings.
@@ -179,8 +179,6 @@ vim.diagnostic.config({
 })
 
 ------------------------------------------------------------------------------- LSP-CONFIG
-local lspConfig = require("lspconfig")
-
 -- LSP Servers
 local on_attach = function(client, bufnr)
 	vim.lsp.util.make_position_params(0, client.offset_encoding)
@@ -213,131 +211,130 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-local servers = {
-	"rust_analyzer", -- rust
-	"bashls", -- bash
-	"ts_ls", -- Web Dev (typescript)
-	"html", -- Web Dev (html)
-	"cssls", -- Web Dev (css)
-	"svelte", -- Svelte
-	"jsonls", -- JSON
-	"yamlls", -- YAML
-	"marksman", -- "remark_ls", "grammarly",     -- Txt
-	"prosemd_lsp", -- proofreading & lint 4 Markdown
-	"lemminx", -- XML
-	"pylsp",
-	"ruff", -- "jedi_language_server", "pyright", "sourcery", "pylsp",   -- Python
-	"dockerls", -- Dockerfile
-	"cmake", -- CMake
-	"jdtls", -- Java
-	"dotls", -- Graphviz
-	"volar", -- Web Dev (vue)
-	-- "stylelint_lsp", "eslint",
-	"kotlin_language_server",
-}
-
-for _, lsp in ipairs(servers) do
-	lspConfig[lsp].setup({ autostart = true, on_attach = on_attach, capabilities = capabilities })
-end
-
 local home_dir = os.getenv("HOME")
-lspConfig.clangd.setup({
-	autostart = true,
-	on_attach = on_attach,
-	capabilities = capabilities,
-	cmd = {
+local servers = {
+	{
 		"clangd",
-		"--enable-config",
-		"--clang-tidy",
-		"--background-index",
-		"--compile-commands-dir=build",
-		"--limit-results=0",
-		"-j=12",
-		"--log=verbose",
-		"--query-driver=/usr/bin/**/clang-*,/usr/bin/**/g++-*,"
-			.. home_dir
-			.. "/ara/eb/adaptivecore/sdk"
-			.. "/eblinux/qemu-x86"
-			.. "/2.18.0_cmake_update/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-*,",
+		{
+			cmd = {
+				"clangd",
+				"--enable-config",
+				"--clang-tidy",
+				"--background-index",
+				"--compile-commands-dir=build",
+				"--limit-results=0",
+				"-j=12",
+				"--log=verbose",
+				"--query-driver=/usr/bin/**/clang-*,/usr/bin/**/g++-*,"
+					.. home_dir
+					.. "/ara/eb/adaptivecore/sdk"
+					.. "/eblinux/qemu-x86"
+					.. "/2.18.0_cmake_update/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-*,",
+			},
+		},
 	},
-})
+	{
+		"lua_ls",
+		{
 
------------------------------------------------------------------------------------ LUA LS
-lspConfig.lua_ls.setup({
-	autostart = true,
-	on_attach = on_attach,
-	capabilities = capabilities,
-	Lua = {
-		runtime = {
-			-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-			version = "LuaJIT",
-		},
-		diagnostics = {
-			-- Get the language server to recognize the `vim` global
-			globals = { "vim" },
-		},
-		workspace = {
-			-- Make the server aware of Neovim runtime files
-			library = vim.api.nvim_get_runtime_file("", true),
-			-- Make the server aware of Neovim runtime files
-			--library = {
-			--    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-			--    [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-			--}
-		},
-		-- Do not send telemetry data containing a randomized but unique identifier
-		telemetry = {
-			enable = false,
+			Lua = {
+				runtime = {
+					-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+					version = "LuaJIT",
+				},
+				diagnostics = {
+					-- Get the language server to recognize the `vim` global
+					globals = { "vim" },
+				},
+				workspace = {
+					-- Make the server aware of Neovim runtime files
+					library = vim.api.nvim_get_runtime_file("", true),
+					-- Make the server aware of Neovim runtime files
+					--library = {
+					--    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					--    [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
+					--}
+				},
+				-- Do not send telemetry data containing a randomized but unique identifier
+				telemetry = {
+					enable = false,
+				},
+			},
 		},
 	},
-})
+	{
+		"ltex_plus",
+		{
 
-------------------------------------------------------------------------- NATURAL LANGUAGE
-lspConfig.ltex_plus.setup({
-	autostart = true,
-	on_attach = on_attach,
-	filetypes = {
-		"asciidoc",
-		"markdown",
-		"bib",
-		"context",
-		"gitcommit",
-		"html",
-		"org",
-		"pandoc",
-		"plaintex",
-		"quarto",
-		"mail",
-		"mdx",
-		"rmd",
-		"rnoweb",
-		"rst",
-		"tex",
-		"text",
-		"typst",
-		"xhtml",
-	},
-	capabilities = capabilities,
-	settings = {
-		ltex = {
-			enabled = {
+			filetypes = {
 				"asciidoc",
+				"markdown",
 				"context",
 				"gitcommit",
 				"html",
-				"markdown",
+				"org",
 				"plaintex",
-				"mail",
 				"mdx",
 				"rmd",
 				"rst",
+				"tex",
 				"text",
 				"xhtml",
 			},
-			language = "pt-BR",
+			settings = {
+				ltex = {
+					enabled = {
+						"asciidoc",
+						"context",
+						"gitcommit",
+						"html",
+						"markdown",
+						"plaintex",
+						"mail",
+						"mdx",
+						"rmd",
+						"rst",
+						"text",
+						"xhtml",
+					},
+					language = "pt-BR",
+				},
+			},
 		},
 	},
-})
+	{ "rust_analyzer" }, -- rust
+	{ "bashls" }, -- bash
+	{ "ts_ls" }, -- Web Dev (typescript)
+	{ "html" }, -- Web Dev (html)
+	{ "cssls" }, -- Web Dev (css)
+	{ "svelte" }, -- Svelte
+	{ "jsonls" }, -- JSON
+	{ "yamlls" }, -- YAML
+	{ "marksman" }, -- "remark_ls", "grammarly",     -- Txt
+	{ "prosemd_lsp" }, -- proofreading & lint 4 Markdown
+	{ "lemminx" }, -- XML
+	{ "pylsp" },
+	{ "ruff" }, -- "jedi_language_server", "pyright", "sourcery", "pylsp",   -- Python
+	{ "dockerls" }, -- Dockerfile
+	{ "cmake" }, -- CMake
+	{ "jdtls" }, -- Java
+	{ "dotls" }, -- Graphviz
+	{ "vue_ls" }, -- Web Dev (vue)
+	-- "stylelint_lsp", "eslint",
+	{ "kotlin_language_server" },
+}
+
+for _, lsp in pairs(servers) do
+	local lsp_name, lsp_spec_config = lsp[1], lsp[2]
+	local base_config = { autostart = true, on_attach = on_attach, capabilities = capabilities }
+
+	local lsp_config = base_config
+	if lsp_spec_config then
+		lsp_config = vim.tbl_deep_extend("force", base_config, lsp_spec_config)
+	end
+	vim.lsp.config(lsp_name, lsp_config)
+	vim.lsp.enable(lsp_name)
+end
 
 local function reconfigure_lsp_for_spelllang(spelllang)
 	local clients = vim.lsp.get_active_clients({ name = "ltex_plus" })
