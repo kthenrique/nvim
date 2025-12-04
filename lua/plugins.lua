@@ -168,21 +168,6 @@ local plugins = {
 			require("overseer").setup()
 		end,
 	},
-	{ -- GitHub
-		"pwntester/octo.nvim",
-		-- lazy-load on a command
-		cmd = "Octo",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			-- OR 'ibhagwan/fzf-lua',
-			-- OR 'folke/snacks.nvim',
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("octo").setup()
-		end,
-	},
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 
@@ -194,16 +179,19 @@ local plugins = {
 			"stevearc/dressing.nvim", -- optional for vim.ui.select
 		},
 		config = true,
-    },
-
+	},
 	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = {
-			{ "nvim-lua/plenary.nvim", branch = "master" },
-		},
-		build = "make tiktoken",
+		"kthenrique/image.nvim",
+		branch = "asciidoc-integration",
+		build = false,
 		opts = {
-			-- See Configuration section for options
+			processor = "magick_cli",
+			integrations = {
+				asciidoc = {
+					only_render_image_at_cursor = true,
+					only_render_image_at_cursor_mode = "inline",
+				},
+			},
 		},
 	},
 }
