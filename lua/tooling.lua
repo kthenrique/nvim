@@ -41,6 +41,7 @@ local tools_tobe_installed = {
 	"ltex-ls-plus", -- txt, tex
 	"hadolint", -- Dockerfile
 	"luacheck", -- LUA
+	"flake8", -- Python
 
 	-- Formatter
 	"rustfmt", -- C/C++
@@ -48,7 +49,7 @@ local tools_tobe_installed = {
 	"gersemi", -- CMake
 	"prettier", -- Web tools
 	"stylua", -- LUA
-	"ruff", -- python
+	"ruff", -- Python
 
 	-- Experimenting
 	"gh",
