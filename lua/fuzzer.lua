@@ -55,6 +55,8 @@ vim.keymap.set("n", "goc", builtin.lsp_outgoing_calls, { desc = "Telescope lsp o
 vim.keymap.set("n", "gd", function()
 	builtin.lsp_definitions({ show_line = false })
 end, { desc = "Telescope lsp go[show] definitions" })
+vim.keymap.set("n", "<leader>fy", builtin.lsp_document_symbols, { desc = "Telescope lsp doc symbols" })
+
 --vim.keymap.set("n", "gw", builtin.lsp_workspace_diagnostics, { desc = "Telescope lsp " })
 vim.keymap.set("n", "gy", builtin.lsp_document_symbols, { desc = "Telescope lsp show document symbols" })
 
