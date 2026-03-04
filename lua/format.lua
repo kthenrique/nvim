@@ -31,6 +31,7 @@ require("formatter").setup({
 		dart = { require("formatter.filetypes.dart").dartformat },
 		rust = { require("formatter.filetypes.rust").rustfmt },
 		cpp = { clangFmt },
+		c = { clangFmt },
 		cmake = { cmakeFmt },
 		python = { require("formatter.filetypes.python").ruff },
 		["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace },
@@ -39,6 +40,6 @@ require("formatter").setup({
 
 -- Format on Save
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.lua", "*.rs", "*.cpp", "*.hpp", "*.py", "*.svelte", "*.dart" },
+	pattern = { "*.lua", "*.rs", "*.cpp", "*.c", "*.h", "*.hpp", "*.py", "*.svelte", "*.dart" },
 	command = "FormatWrite",
 })

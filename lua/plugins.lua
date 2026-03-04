@@ -172,14 +172,14 @@ local plugins = {
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 
 	{
-		"nvim-flutter/flutter-tools.nvim",
-		lazy = false,
+		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"stevearc/dressing.nvim", -- optional for vim.ui.select
+			{ "nvim-lua/plenary.nvim", branch = "master" },
+			{ "github/copilot.vim" },
 		},
-		config = true,
+		build = "make tiktoken",
 	},
+
 	{
 		"kthenrique/image.nvim",
 		branch = "asciidoc-integration",

@@ -102,6 +102,10 @@ vim.cmd([[smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : 
 -- Completion
 vim.api.nvim_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
+-- Experimental copilot tab mapping
+vim.g.copilot_no_tab_map = true
+vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+
 --------------------------------------------------------------------- LSP GENERAL SETTINGS
 -- Highlights
 vim.cmd("hi LspDiagnosticsSignError guifg=red")
