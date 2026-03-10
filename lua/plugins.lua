@@ -109,6 +109,19 @@ local plugins = {
 			"echasnovski/mini.pick",
 		},
 	},
+	{
+		"3rd/image.nvim",
+		build = false,
+		opts = {
+			processor = "magick_cli",
+			integrations = {
+				asciidoc = {
+					only_render_image_at_cursor = true,
+					only_render_image_at_cursor_mode = "inline",
+				},
+			},
+		},
+	},
 
 	-- Git integration
 	{ "lewis6991/gitsigns.nvim", dependencies = "nvim-lua/plenary.nvim" },
@@ -161,16 +174,7 @@ local plugins = {
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 	},
 
-	-- Experimental ------------------------------------------------------------------------
-	{
-		"stevearc/overseer.nvim",
-		config = function()
-			require("overseer").setup()
-		end,
-	},
-
-	{ "kevinhwang91/nvim-bqf", ft = "qf" },
-
+	-- LLM Integration
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		dependencies = {
@@ -180,20 +184,15 @@ local plugins = {
 		build = "make tiktoken",
 	},
 
+	-- Experimental ------------------------------------------------------------------------
 	{
-		"kthenrique/image.nvim",
-		branch = "asciidoc-integration",
-		build = false,
-		opts = {
-			processor = "magick_cli",
-			integrations = {
-				asciidoc = {
-					only_render_image_at_cursor = true,
-					only_render_image_at_cursor_mode = "inline",
-				},
-			},
-		},
+		"stevearc/overseer.nvim",
+		config = function()
+			require("overseer").setup()
+		end,
 	},
+
+	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 }
 
 require("lazy").setup(plugins, opts)
