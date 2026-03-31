@@ -27,7 +27,6 @@ local plugins = {
 			vim.cmd([[colorscheme gruvbox-material]])
 		end,
 	},
-	{ "rebelot/kanagawa.nvim", config = true },
 
 	-- Statusline
 	{
@@ -44,17 +43,8 @@ local plugins = {
 
 	-- installer manager
 	{
-		"mason-org/mason-lspconfig.nvim",
-		dependencies = {
-			"mason-org/mason.nvim",
-			"neovim/nvim-lspconfig",
-		},
-	},
-
-	-- LSP
-	{ "neovim/nvim-lspconfig" }, -- default config for multiple langs
-	{
-		"j-hui/fidget.nvim", -- view lsp processing progress
+		"mason-org/mason.nvim",
+		opts = {},
 	},
 
 	-- Completion
@@ -62,12 +52,10 @@ local plugins = {
 		"hrsh7th/nvim-cmp", -- completion engine
 		event = "InsertEnter",
 		dependencies = {
-			"hrsh7th/cmp-nvim-lsp", -- addon for native lsp
 			"dcampos/cmp-snippy", -- addon for nvim-snippy
 			"hrsh7th/cmp-buffer", -- addon for buffer completions
 			"hrsh7th/cmp-path", -- addon for path completions
 			"hrsh7th/cmp-nvim-lua", -- addon for plugin dev in lua
-			"hrsh7th/cmp-nvim-lsp-signature-help", -- addon for signatures
 		},
 	},
 
@@ -77,9 +65,6 @@ local plugins = {
 
 	-- Linter engine
 	{ "mfussenegger/nvim-lint" },
-
-	-- Debugging
-	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 
 	-- Formatting
 	{ "mhartington/formatter.nvim" },
@@ -99,30 +84,6 @@ local plugins = {
 	-- Buffer tabs
 	{ "akinsho/nvim-bufferline.lua", dependencies = "kyazdani42/nvim-web-devicons" },
 
-	-- Documenting
-	{
-		"brianhuster/live-preview.nvim",
-		dependencies = {
-			-- You can choose one of the following pickers
-			"nvim-telescope/telescope.nvim",
-			"ibhagwan/fzf-lua",
-			"echasnovski/mini.pick",
-		},
-	},
-	{
-		"3rd/image.nvim",
-		build = false,
-		opts = {
-			processor = "magick_cli",
-			integrations = {
-				asciidoc = {
-					only_render_image_at_cursor = true,
-					only_render_image_at_cursor_mode = "inline",
-				},
-			},
-		},
-	},
-
 	-- Git integration
 	{ "lewis6991/gitsigns.nvim", dependencies = "nvim-lua/plenary.nvim" },
 	{ cmd = "DiffviewOpen", "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
@@ -140,14 +101,6 @@ local plugins = {
 			require("colorizer").setup()
 		end,
 	},
-
-	-- Treesitter
-	{
-		"nvim-treesitter/nvim-treesitter", -- code introspection/colorizing
-		build = ":TSUpdate",
-	},
-	{ "hiphish/rainbow-delimiters.nvim" }, -- brackets colors
-	{ "nvim-treesitter/nvim-treesitter-context" }, -- show context
 
 	-- Convenience Tools
 	{
@@ -174,24 +127,7 @@ local plugins = {
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 	},
 
-	-- LLM Integration
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = {
-			{ "nvim-lua/plenary.nvim", branch = "master" },
-			{ "github/copilot.vim" },
-		},
-		build = "make tiktoken",
-	},
-
 	-- Experimental ------------------------------------------------------------------------
-	{
-		"stevearc/overseer.nvim",
-		config = function()
-			require("overseer").setup()
-		end,
-	},
-
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
 }
 

@@ -9,7 +9,6 @@ require("linter")
 require("statusline")
 require("tabline")
 require("explorer")
-require("symbols")
 require("fuzzer")
 require("mappings")
 
