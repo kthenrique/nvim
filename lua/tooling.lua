@@ -44,7 +44,6 @@ local tools_tobe_installed = {
 	"flake8", -- Python
 
 	-- Formatter
-	"rustfmt", -- C/C++
 	"clang-format", -- C/C++
 	"gersemi", -- CMake
 	"prettier", -- Web tools
