@@ -37,6 +37,25 @@ for key, _ in pairs(terms) do
 		toggle_shell(key)
 	end, termOpts)
 end
+
+local opencode = fterm:new({
+	cmd = "opencode",
+	border = "double",
+	blend = 20,
+	dimensions = {
+		height = 0.9,
+		width = 0.95,
+		x = 0.5,
+		y = 0.5,
+	},
+})
+
+vim.keymap.set({ "n", "t" }, "<leader>ai", function()
+	if vim.bo.buftype == "terminal" then
+		vim.cmd("stopinsert")
+	end
+	opencode:toggle()
+end, termOpts)
 ----------------------------------------------------------------------------------- GOMOVE
 require("gomove").setup({
 	-- whether or not to map default key bindings, (true/false)
