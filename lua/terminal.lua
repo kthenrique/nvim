@@ -6,15 +6,12 @@ local termOpts = { noremap = true, silent = true }
 local termSetup = {
 	cmd = shell,
 	border = "double",
-	-- Transparency of the floating window. See `:h winblend`
 	blend = 20,
-	-- Object containing the terminal window dimensions.
-	-- The value for each field should be between `0` and `1`
 	dimensions = {
-		height = 0.9, -- Height of the terminal window
-		width = 0.95, -- Width of the terminal window
-		x = 0.5, -- X axis of the terminal window
-		y = 0.5, -- Y axis of the terminal window
+		height = 0.9,
+		width = 0.95,
+		x = 0.5,
+		y = 0.5,
 	},
 }
 
@@ -39,7 +36,7 @@ for key, _ in pairs(terms) do
 end
 
 local opencode = fterm:new({
-	cmd = "opencode",
+	cmd = "EDITOR=nvim opencode --port",
 	border = "double",
 	blend = 20,
 	dimensions = {

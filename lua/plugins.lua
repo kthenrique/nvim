@@ -155,7 +155,7 @@ local plugins = {
 
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.2.1",
+		version = "*",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
@@ -172,6 +172,11 @@ local plugins = {
 	},
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
+
+	--{
+	--	"nickjvandyke/opencode.nvim",
+	--	version = "*",
+	--},
 }
 
 require("lazy").setup(plugins, opts)
