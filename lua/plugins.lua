@@ -158,7 +158,7 @@ local plugins = {
 	{ "booperlv/nvim-gomove" }, -- inputs repositioning
 	{
 		keys = { "s" },
-		"ggandor/leap.nvim",
+		"https://codeberg.org/andyg/leap.nvim",
 		config = function()
 			require("leap").add_default_mappings()
 		end,
