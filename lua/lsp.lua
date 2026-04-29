@@ -99,35 +99,38 @@ vim.cmd([[imap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : 
 vim.cmd([[smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>']])
 vim.cmd([[smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<Tab>']])
 
--- Completion
-vim.api.nvim_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
 -- Experimental copilot tab mapping
 vim.g.copilot_no_tab_map = true
 vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
 
 --------------------------------------------------------------------- LSP GENERAL SETTINGS
 -- Highlights
-vim.cmd("hi LspDiagnosticsSignError guifg=red")
-vim.cmd("hi LspDiagnosticsSignWarning guifg=yellow")
-vim.cmd("hi LspDiagnosticsSignHint guifg=cyan")
-vim.cmd("hi LspDiagnosticsSignInformation guifg=green")
-vim.fn.sign_define(
-	"DiagnosticSignError",
-	{ text = "●", texthl = "LspDiagnosticsSignError", linehl = "", numhl = "LspDiagnosticsSignError" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignWarn",
-	{ text = "●", texthl = "LspDiagnosticsSignWarning", linehl = "", numhl = "LspDiagnosticsSignWarning" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignHint",
-	{ text = "●", texthl = "LspDiagnosticsSignHint", linehl = "", numhl = "LspDiagnosticsSignHint" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignInfo",
-	{ text = "●", texthl = "LspDiagnosticsSignInformation", linehl = "", numhl = "LspDiagnosticsSignInformation" }
-)
+vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "red" })
+vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = "yellow" })
+vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = "cyan" })
+vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = "green" })
+
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "●",
+			[vim.diagnostic.severity.WARN] = "●",
+			[vim.diagnostic.severity.HINT] = "●",
+			[vim.diagnostic.severity.INFO] = "●",
+		},
+		numhl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticError",
+			[vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+			[vim.diagnostic.severity.HINT] = "DiagnosticHint",
+			[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+		},
+	},
+	underline = true,
+	virtual_text = false,
+	virtual_lines = false,
+	update_in_insert = true,
+	severity_sort = true,
+})
 
 -- Mappings.
 local opts = { noremap = true, silent = true }
@@ -165,27 +168,12 @@ vim.api.nvim_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opt
 vim.api.nvim_set_keymap("v", "ga", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gw", "<Cmd>lua vim.lsp.buf.workspace_diagnostic()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gl", "<cmd>lua vim.lsp.codelens.display()<CR>", opts)
--- Handlers
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "single",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "single",
-})
-
-vim.diagnostic.config({
-	underline = true,
-	virtual_text = false,
-	signs = true,
-	update_in_insert = true,
-	severity_sort = true,
-})
 
 ------------------------------------------------------------------------------- LSP-CONFIG
 -- LSP Servers
 local on_attach = function(client, bufnr)
 	vim.lsp.util.make_position_params(0, client.offset_encoding)
+
 	-- Set autocommands conditional on server_capabilities
 	--	if server_capabilities.document_highlight then
 	if client.server_capabilities.documentHighlightProvider then
@@ -240,28 +228,20 @@ local servers = {
 	{
 		"lua_ls",
 		{
-
-			Lua = {
-				runtime = {
-					-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-					version = "LuaJIT",
-				},
-				diagnostics = {
-					-- Get the language server to recognize the `vim` global
-					globals = { "vim" },
-				},
-				workspace = {
-					-- Make the server aware of Neovim runtime files
-					library = vim.api.nvim_get_runtime_file("", true),
-					-- Make the server aware of Neovim runtime files
-					--library = {
-					--    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					--    [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-					--}
-				},
-				-- Do not send telemetry data containing a randomized but unique identifier
-				telemetry = {
-					enable = false,
+			settings = {
+				Lua = {
+					runtime = {
+						version = "LuaJIT",
+					},
+					workspace = {
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+						},
+					},
+					telemetry = {
+						enable = false,
+					},
 				},
 			},
 		},
@@ -341,13 +321,16 @@ for _, lsp in pairs(servers) do
 end
 
 local function reconfigure_lsp_for_spelllang(spelllang)
-	local clients = vim.lsp.get_active_clients({ name = "ltex_plus" })
-	for _, client in ipairs(clients) do
-		client.config.settings = client.config.settings or {}
-		client.config.settings.ltex = client.config.settings.ltex or {}
-		client.config.settings.ltex.language = spelllang
+	local clients = vim.lsp.get_clients({ name = "ltex" }) -- Use "ltex" or "ltex_plus" depending on your server
 
-		client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+	for _, client in ipairs(clients) do
+		client.settings = client.settings or {}
+		client.settings.ltex = client.settings.ltex or {}
+		client.settings.ltex.language = spelllang
+
+		client:notify("workspace/didChangeConfiguration", {
+			settings = client.settings,
+		})
 	end
 end
 
@@ -355,6 +338,8 @@ vim.api.nvim_create_autocmd("OptionSet", {
 	pattern = "spelllang",
 	callback = function()
 		local spelllang = vim.opt.spelllang:get()[1]
-		reconfigure_lsp_for_spelllang(spelllang)
+		if spelllang then
+			reconfigure_lsp_for_spelllang(spelllang)
+		end
 	end,
 })

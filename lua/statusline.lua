@@ -1,5 +1,3 @@
---require('feline').setup()
-
 local gl = require("galaxyline")
 local gls = gl.section
 

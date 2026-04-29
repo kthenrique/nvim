@@ -76,3 +76,16 @@ shellcheck.args = {
 	"json",
 	"-",
 }
+
+------------------------------------------------------------------------------- LuaCheck
+
+local luacheck = require("lint.linters.luacheck")
+luacheck.args = {
+	"--globals",
+	"vim",
+	"--formatter",
+	"plain",
+	"--codes",
+	"--ranges",
+	"-",
+}

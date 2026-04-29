@@ -21,8 +21,8 @@ local termSetup = {
 fterm.setup(termSetup)
 local terms = {
 	a = fterm,
-	b = fterm:new(termSetup),
-	c = fterm:new(termSetup),
+	s = fterm:new(termSetup),
+	d = fterm:new(termSetup),
 }
 
 local function toggle_shell(id)

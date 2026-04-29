@@ -103,10 +103,7 @@ local plugins = {
 	{
 		"brianhuster/live-preview.nvim",
 		dependencies = {
-			-- You can choose one of the following pickers
 			"nvim-telescope/telescope.nvim",
-			"ibhagwan/fzf-lua",
-			"echasnovski/mini.pick",
 		},
 	},
 	{
@@ -141,14 +138,6 @@ local plugins = {
 		end,
 	},
 
-	-- Treesitter
-	{
-		"nvim-treesitter/nvim-treesitter", -- code introspection/colorizing
-		build = ":TSUpdate",
-	},
-	{ "hiphish/rainbow-delimiters.nvim" }, -- brackets colors
-	{ "nvim-treesitter/nvim-treesitter-context" }, -- show context
-
 	-- Convenience Tools
 	{
 		"folke/which-key.nvim", -- Helper for mapped keys
@@ -166,22 +155,12 @@ local plugins = {
 
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.8",
+		tag = "0.2.1",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-	},
-
-	-- LLM Integration
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = {
-			{ "nvim-lua/plenary.nvim", branch = "master" },
-			{ "github/copilot.vim" },
-		},
-		build = "make tiktoken",
 	},
 
 	-- Experimental ------------------------------------------------------------------------

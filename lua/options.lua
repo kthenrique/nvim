@@ -1,6 +1,10 @@
 -- For auto completion
 vim.opt.shortmess:append({ c = true })
 vim.opt.completeopt = "menuone,noinsert,noselect"
+vim.opt.autocomplete = false
+
+-- default border style of popupmenu windows
+vim.opt.pumborder = "rounded"
 
 -- Don't put message to show the mode
 vim.opt.showmode = false
