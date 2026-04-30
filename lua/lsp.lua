@@ -213,15 +213,9 @@ local servers = {
 				"--enable-config",
 				"--clang-tidy",
 				"--background-index",
-				"--compile-commands-dir=build",
 				"--limit-results=0",
 				"-j=12",
 				"--log=verbose",
-				"--query-driver=/usr/bin/**/clang-*,/usr/bin/**/g++-*,"
-					.. home_dir
-					.. "/ara/eb/adaptivecore/sdk"
-					.. "/eblinux/qemu-x86"
-					.. "/2.18.0_cmake_update/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-*,",
 			},
 		},
 	},
