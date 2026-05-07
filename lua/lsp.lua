@@ -99,10 +99,6 @@ vim.cmd([[imap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : 
 vim.cmd([[smap <expr> <Tab> snippy#can_jump(1) ? '<Plug>(snippy-next)' : '<Tab>']])
 vim.cmd([[smap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<Tab>']])
 
--- Experimental copilot tab mapping
-vim.g.copilot_no_tab_map = true
-vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
-
 --------------------------------------------------------------------- LSP GENERAL SETTINGS
 -- Highlights
 vim.api.nvim_set_hl(0, "DiagnosticError", { fg = "red" })

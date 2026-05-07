@@ -53,6 +53,24 @@ vim.keymap.set({ "n", "t" }, "<leader>ai", function()
 	end
 	opencode:toggle()
 end, termOpts)
+
+--------------------------------------------------------------------------------- OPENCODE
+vim.g.opencode_opts = {
+	server = {
+		start = function()
+			opencode:open()
+		end,
+		stop = function()
+			opencode:close()
+		end,
+		toggle = function()
+			opencode:toggle()
+		end,
+	},
+}
+vim.keymap.set({ "n", "x" }, "<leader>oc", function()
+	require("opencode").ask("@this: ", { submit = true })
+end, { desc = "Ask opencode…" })
 ----------------------------------------------------------------------------------- GOMOVE
 require("gomove").setup({
 	-- whether or not to map default key bindings, (true/false)

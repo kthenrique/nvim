@@ -163,6 +163,24 @@ local plugins = {
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
 	},
 
+	-- LLM
+	{
+		"github/copilot.vim",
+		version = "*",
+		config = function()
+			vim.g.copilot_no_tab_map = true
+			vim.keymap.set("i", "<leader><leader>", 'copilot#Accept("\\<CR>")', {
+				expr = true,
+				replace_keycodes = false,
+				silent = true,
+			})
+		end,
+	},
+
+	{
+		"nickjvandyke/opencode.nvim",
+		version = "*",
+	},
 	-- Experimental ------------------------------------------------------------------------
 	{
 		"stevearc/overseer.nvim",
@@ -172,11 +190,6 @@ local plugins = {
 	},
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
-
-	--{
-	--	"nickjvandyke/opencode.nvim",
-	--	version = "*",
-	--},
 }
 
 require("lazy").setup(plugins, opts)
