@@ -146,10 +146,10 @@ local plugins = {
 	{ "numToStr/FTerm.nvim" }, -- Terminal utilities
 	{ "booperlv/nvim-gomove" }, -- inputs repositioning
 	{
-		keys = { "s" },
 		"https://codeberg.org/andyg/leap.nvim",
 		config = function()
-			require("leap").add_default_mappings()
+			vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+			vim.keymap.set("n", "S", "<Plug>(leap-anywhere)")
 		end,
 	}, -- Motions
 
