@@ -124,6 +124,35 @@ local plugins = {
 	{ "lewis6991/gitsigns.nvim", dependencies = "nvim-lua/plenary.nvim" },
 	{ cmd = "DiffviewOpen", "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
 
+	-- Treesitter (syntax highlighting)
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					pcall(vim.treesitter.start)
+				end,
+			})
+		end,
+		config = function()
+			require("nvim-treesitter").setup()
+
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function(args)
+					local ft = vim.bo[args.buf].filetype
+					if ft == "" then
+						return
+					end
+					local lang = vim.treesitter.language.get_lang(ft)
+					if lang and not pcall(vim.treesitter.language.add, lang) then
+						require("nvim-treesitter").install({ lang })
+					end
+				end,
+			})
+		end,
+	},
+
 	-- Beautifier
 	{
 		"lukas-reineke/indent-blankline.nvim", -- indent marks
