@@ -107,7 +107,8 @@ local plugins = {
 		},
 	},
 	{
-		"3rd/image.nvim",
+		"kthenrique/image.nvim",
+		branch = "stem-formulae",
 		build = false,
 		opts = {
 			processor = "magick_cli",
