@@ -107,8 +107,7 @@ local plugins = {
 		},
 	},
 	{
-		"kthenrique/image.nvim",
-		branch = "stem-formulae",
+		"3rd/image.nvim",
 		build = false,
 		opts = {
 			processor = "magick_cli",
@@ -121,7 +120,8 @@ local plugins = {
 		},
 	},
 	{
-		"3rd/diagram.nvim",
+		"kthenrique/diagram.nvim",
+		branch = "adoc-feats",
 		opts = {
 			renderer_options = {
 				mermaid = {
@@ -147,31 +147,33 @@ local plugins = {
 			})
 		end,
 		config = function()
-			local parsers = require("nvim-treesitter.parsers")
+			local function register_adoc_parsers()
+				local parsers = require("nvim-treesitter.parsers")
+				parsers.asciidoc = {
+					install_info = {
+						url = "https://github.com/cathaysia/tree-sitter-asciidoc",
+						files = { "tree-sitter-asciidoc/src/parser.c", "tree-sitter-asciidoc/src/scanner.c" },
+						branch = "master",
+						location = "tree-sitter-asciidoc",
+						queries = "queries/asciidoc/",
+						requires = { "asciidoc_inline" },
+					},
+				}
+				parsers.asciidoc_inline = {
+					install_info = {
+						url = "https://github.com/cathaysia/tree-sitter-asciidoc",
+						files = { "tree-sitter-asciidoc_inline/src/parser.c" },
+						branch = "master",
+						location = "tree-sitter-asciidoc_inline",
+						queries = "queries/asciidoc_inline",
+					},
+				}
+			end
 
-			-- Register custom AsciiDoc parsers before any install/start logic runs.
-			parsers.asciidoc = {
-				install_info = {
-					url = "https://github.com/cathaysia/tree-sitter-asciidoc",
-					files = { "tree-sitter-asciidoc/src/parser.c", "tree-sitter-asciidoc/src/scanner.c" },
-					branch = "master",
-					location = "tree-sitter-asciidoc",
-					queries = "queries/asciidoc/",
-					requires = { "asciidoc_inline" },
-				},
-			}
-
-			parsers.asciidoc_inline = {
-				install_info = {
-					url = "https://github.com/cathaysia/tree-sitter-asciidoc",
-					files = { "tree-sitter-asciidoc_inline/src/parser.c" },
-					branch = "master",
-					location = "tree-sitter-asciidoc_inline",
-					queries = "queries/asciidoc_inline",
-				},
-			}
-
-			require("nvim-treesitter").setup()
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "TSUpdate",
+				callback = register_adoc_parsers,
+			})
 
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(args)
