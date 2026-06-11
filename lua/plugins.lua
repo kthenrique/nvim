@@ -101,10 +101,11 @@ local plugins = {
 
 	-- Documenting
 	{
-		"brianhuster/live-preview.nvim",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-		},
+		"kthenrique/adoc-live.nvim",
+		build = "npm install",
+		config = function()
+			require("adoc_live").setup()
+		end,
 	},
 	{
 		"3rd/image.nvim",
