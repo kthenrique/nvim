@@ -134,7 +134,8 @@ local plugins = {
 
 	-- Git integration
 	{ "lewis6991/gitsigns.nvim", dependencies = "nvim-lua/plenary.nvim" },
-	{ cmd = "DiffviewOpen", "sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim" },
+	{ "sindrets/diffview.nvim", cmd = "DiffviewOpen", dependencies = "nvim-lua/plenary.nvim" },
+	{ "isakbm/gitgraph.nvim", dependencies = { "sindrets/diffview.nvim" } },
 
 	-- Treesitter (syntax highlighting)
 	{
@@ -257,6 +258,13 @@ local plugins = {
 	},
 
 	{ "kevinhwang91/nvim-bqf", ft = "qf" },
+	{
+		"https://gitlab.com/itaranto/plantuml.nvim",
+		version = "*",
+		config = function()
+			require("plantuml").setup()
+		end,
+	},
 }
 
 require("lazy").setup(plugins, opts)
