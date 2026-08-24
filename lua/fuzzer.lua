@@ -31,7 +31,19 @@ require("telescope").setup({
 require("telescope").load_extension("fzf")
 
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<C-f>", builtin.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<C-f>", function()
+	builtin.find_files({
+		no_ignore = false,
+		no_hidden = false,
+	})
+end, { desc = "Telescope find files" })
+
+vim.keymap.set("n", "<leader>ff", function()
+	builtin.find_files({
+		no_ignore = true,
+		no_hidden = true,
+	})
+end, { desc = "Telescope find ALL files" })
 vim.keymap.set("n", "<C-p>", function()
 	vim.ui.input({ prompt = "Search for: " }, function(input)
 		if input then
