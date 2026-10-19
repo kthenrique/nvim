@@ -310,26 +310,51 @@ for _, lsp in pairs(servers) do
 	vim.lsp.enable(lsp_name)
 end
 
-local function reconfigure_lsp_for_spelllang(spelllang)
-	local clients = vim.lsp.get_clients({ name = "ltex" }) -- Use "ltex" or "ltex_plus" depending on your server
-
-	for _, client in ipairs(clients) do
-		client.settings = client.settings or {}
-		client.settings.ltex = client.settings.ltex or {}
-		client.settings.ltex.language = spelllang
-
-		client:notify("workspace/didChangeConfiguration", {
-			settings = client.settings,
-		})
+-- neovim 'spelllang' uses "pt_br"/"en", ltex expects "pt-BR"/"en-US"
+local function to_ltex_language(spelllang)
+	local lang, region = spelllang:match("^(%a+)[_-](%a+)$")
+	if lang then
+		return lang:lower() .. "-" .. region:upper()
 	end
+	return spelllang:lower()
+end
+
+local function reconfigure_lsp_for_spelllang(client, spelllang)
+	local settings = vim.deepcopy(client.settings or {})
+	settings.ltex = settings.ltex or {}
+	settings.ltex.language = to_ltex_language(spelllang)
+	client.settings = settings
+
+	client:notify("workspace/didChangeConfiguration", { settings = settings })
+end
+
+local function current_spelllang()
+	return vim.opt_local.spelllang:get()[1] or vim.opt.spelllang:get()[1]
 end
 
 vim.api.nvim_create_autocmd("OptionSet", {
 	pattern = "spelllang",
 	callback = function()
-		local spelllang = vim.opt.spelllang:get()[1]
-		if spelllang then
-			reconfigure_lsp_for_spelllang(spelllang)
+		local spelllang = (vim.v.option_new or ""):match("^[^,]+") or current_spelllang()
+		if not spelllang or spelllang == "" then
+			return
+		end
+		for _, client in ipairs(vim.lsp.get_clients({ name = "ltex_plus" })) do
+			reconfigure_lsp_for_spelllang(client, spelllang)
+		end
+	end,
+})
+
+-- apply the buffer's spelllang when ltex attaches
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client or client.name ~= "ltex_plus" then
+			return
+		end
+		local spelllang = vim.api.nvim_buf_call(args.buf, current_spelllang)
+		if spelllang and spelllang ~= "" then
+			reconfigure_lsp_for_spelllang(client, spelllang)
 		end
 	end,
 })
